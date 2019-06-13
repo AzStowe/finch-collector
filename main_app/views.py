@@ -1,8 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Finch
 from .models import Finch
 
 # Create your views here.
+class FinchCreate(CreateView):
+  model = Finch
+  fields = ['name', 'breed', 'description', 'age']
+
+class FinchUpdate(UpdateView):
+  model = Finch
+  fields = ['breed', 'description', 'age']
+
+class FinchDelete(DeleteView):
+  model = Finch
+  success_url = '/finches/'
 
 def home(request):
     return render(request, 'home.html')
@@ -15,5 +28,5 @@ def finches_index(request):
     return render(request, 'finches/index.html', {'finches' : finches})
 
 def finches_detail(request, finch_id):
-    finch = Finch.objects.get(id=finch_id)
-    return render(request, 'finches/detail.html', { 'finch': finch })
+  finch = Finch.objects.get(id=finch_id)
+  return render(request, 'finches/detail.html', { 'finch': finch })
